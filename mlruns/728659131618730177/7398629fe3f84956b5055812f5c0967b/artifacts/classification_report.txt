@@ -1,0 +1,25 @@
+                precision    recall  f1-score   support
+
+  Agricultural       0.00      0.00      0.00         0
+       Airport       0.00      0.00      0.00         0
+         Beach       1.00      1.00      1.00         1
+        Bridge       1.00      0.33      0.50         3
+          City       0.00      0.00      0.00         0
+        Desert       0.00      0.00      0.00         0
+        Forest       0.00      0.00      0.00         0
+       Highway       0.00      0.00      0.00         0
+    Industrial       0.00      0.00      0.00         0
+      Mountain       1.00      1.00      1.00         2
+       Parking       0.00      0.00      0.00         0
+    Playground       0.00      0.00      0.00         0
+          Pond       0.00      0.00      0.00         0
+          Port       0.00      0.00      0.00         0
+RailwayStation       0.00      0.00      0.00         0
+   Residential       0.00      0.00      0.00         0
+         River       1.00      1.00      1.00         1
+  StorageTanks       0.00      0.00      0.00         0
+         Venue       0.00      0.00      0.00         0
+
+      accuracy                           0.71         7
+     macro avg       0.21      0.18      0.18         7
+  weighted avg       1.00      0.71      0.79         7

@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/taran/PycharmProjects/NAVI-EXPERIMENTAL/source/mlruns/728659131618730177/8771468eb8984cccacf33444adca7eca/artifacts
+end_time: 1755539172094
+entry_point_name: ''
+experiment_id: '728659131618730177'
+lifecycle_stage: active
+run_id: 8771468eb8984cccacf33444adca7eca
+run_name: Qwen2.5-VL-3B
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755539171980
+status: 3
+tags: []
+user_id: taran

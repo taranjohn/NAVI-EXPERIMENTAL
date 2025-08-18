@@ -1,0 +1,64 @@
+# config.yaml
+# Main configuration for the VLM evaluation script.
+
+# -----------------------------------------------------------------------------
+# MLflow Project Settings
+# -----------------------------------------------------------------------------
+project:
+  experiment_name: "Satellite Scene Classification"
+
+# -----------------------------------------------------------------------------
+# Dataset Configuration
+# -----------------------------------------------------------------------------
+dataset:
+  # Type of the dataset loader to use. Options: 'yolov8', 'aid', etc.
+  type: 'aid'
+
+  # Configuration specific to the dataset type
+  # For 'yolov8': requires image_dir and label_dir
+  # For 'aid': only requires image_dir
+  loader_config:
+#    image_dir: "/Users/taran/PycharmProjects/NAVI-ORBITAL/io/remote-sensing-satellite/train/images/"
+#    label_dir: "/Users/taran/PycharmProjects/NAVI-ORBITAL/io/remote-sensing-satellite/train/labels/"
+    # Example for 'aid' dataset:
+     image_dir: "/Users/taran/PycharmProjects/NAVI-EXPERIMENTAL/data/AID-Modified/"
+
+  # Percentage of the dataset to sample for evaluation (e.g., 0.01 for 1%).
+  # Use 1.0 for the full dataset.
+  sample_percentage: 0.025
+
+  # Random state for reproducibility of the dataset sampling.
+  random_state: 42
+
+# -----------------------------------------------------------------------------
+# Evaluation & Inference Settings
+# -----------------------------------------------------------------------------
+evaluation:
+  # The prompt template sent to the VLM.
+  # Use {class_names} as a placeholder for the list of categories.
+  prompt_template: |
+    Analyze the image. Classify it into ONE of the following categories and provide a brief description.
+    Categories: {class_names}
+    Your answer MUST be in the format: 'Label: <category>, Description: <your_description>'
+
+  # Maximum number of new tokens the model is allowed to generate.
+  max_new_tokens: 200
+
+  # Number of times to retry inference if the output format is invalid.
+  max_retries: 3
+
+# -----------------------------------------------------------------------------
+# Models to Evaluate
+# -----------------------------------------------------------------------------
+# The script will iterate through each model.
+# The 'adapter_type' key is crucial for the factory to select the correct loader.
+models_to_evaluate:
+#  - name: "Gemma 3 4B"
+#    id: "google/gemma-3-4b-it"
+#    adapter_type: "standard_pipeline" # Use the standard HF pipeline adapter
+#    device: "mps" # Let the adapter know the preferred device
+
+  - name: "Qwen2.5-VL-3B"
+    id: "Qwen/Qwen2.5-VL-3B-Instruct"
+    adapter_type: "qwen_vl" # Use the custom Qwen adapter
+    device: "mps" # Specify the device for this model

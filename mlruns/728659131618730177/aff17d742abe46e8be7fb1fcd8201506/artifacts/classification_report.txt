@@ -1,0 +1,36 @@
+                   precision    recall  f1-score   support
+
+          Airport       0.00      0.00      0.00         0
+         BareLand       0.00      0.00      0.00         2
+    BaseballField       0.00      0.00      0.00         0
+            Beach       0.00      0.00      0.00         0
+           Bridge       0.00      0.00      0.00         0
+           Center       0.00      0.00      0.00         1
+           Church       0.00      0.00      0.00         0
+       Commercial       0.00      0.00      0.00         0
+ DenseResidential       0.00      0.00      0.00         0
+           Desert       0.00      0.00      0.00         0
+         Farmland       0.00      0.00      0.00         0
+           Forest       0.00      0.00      0.00         0
+       Industrial       0.00      0.00      0.00         0
+           Meadow       0.00      0.00      0.00         0
+MediumResidential       0.00      0.00      0.00         3
+         Mountain       0.00      0.00      0.00         0
+             Park       1.00      1.00      1.00         1
+          Parking       0.00      0.00      0.00         0
+       Playground       0.00      0.00      0.00         0
+             Pond       1.00      0.67      0.80         3
+             Port       0.00      0.00      0.00         0
+   RailwayStation       0.00      0.00      0.00         0
+           Resort       0.00      0.00      0.00         0
+            River       0.00      0.00      0.00         0
+           School       0.00      0.00      0.00         0
+SparseResidential       0.00      0.00      0.00         0
+           Square       0.00      0.00      0.00         0
+          Stadium       0.00      0.00      0.00         0
+     StorageTanks       0.00      0.00      0.00         0
+          Viaduct       0.00      0.00      0.00         0
+
+         accuracy                           0.30        10
+        macro avg       0.07      0.06      0.06        10
+     weighted avg       0.40      0.30      0.34        10
