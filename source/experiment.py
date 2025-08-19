@@ -76,10 +76,6 @@ def evaluate_vlm(model_config: dict, dataset_df: pd.DataFrame, class_names: list
     """
     Evaluates a single VLM using the adapter factory for model handling.
     """
-    # Set the tracking URI to be in the project root
-    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-    mlflow.set_tracking_uri(f"file://{os.path.join(project_root, 'mlruns')}")
-
     mlflow.set_experiment(project_config['experiment_name'])
     with mlflow.start_run(run_name=model_config['name']) as run:
         start_time = time.time()

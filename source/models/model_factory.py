@@ -4,6 +4,9 @@ from transformers import pipeline, AutoModelForCausalLM, AutoTokenizer, Qwen2_5_
     AutoProcessor
 from PIL import Image
 
+import ollama
+import base64
+
 class VLMAdapter(ABC):
     """Abstract Base Class for a Vision-Language Model adapter."""
 
@@ -163,6 +166,83 @@ class QwenVLAdapter(VLMAdapter):
         except Exception as e:
             raise RuntimeError(f"Inference failed for image {image_path} with Qwen model: {e}")
 
+
+class OllamaAdapter(VLMAdapter):
+    """Adapter for Vision-Language Models served via Ollama."""
+
+    def load_model(self):
+        """
+        Verifies that the Ollama service is running and the specified model is available.
+        For Ollama, the model is managed by the service, not loaded into this class instance.
+        """
+        model_id = self.model_config['id']
+        print(f"Checking for Ollama model: '{model_id}'...")
+        try:
+            # Get the list of models available locally in the Ollama service
+            # --- FIX ---
+            # The key for the model identifier in the ollama library response is 'model', not 'name'.
+            available_models = [m['model'] for m in ollama.list()['models']]
+
+            # Check if the requested model (e.g., "llava:latest") is in the list
+            if model_id not in available_models:
+                raise RuntimeError(
+                    f"Model '{model_id}' not found in Ollama. "
+                    f"Please ensure Ollama is running and you have pulled the model with `ollama pull {model_id}`."
+                )
+
+            # If the model is found, we store its name for the predict method.
+            # No actual model object is loaded into memory in this script.
+            self.model = model_id
+            print(f"Ollama model '{self.model}' is available and ready.")
+
+        except Exception as e:
+            raise IOError(
+                f"Failed to connect to Ollama or find model '{model_id}'. "
+                f"Please ensure the Ollama service is running. Error: {e}"
+            )
+
+    def _image_to_base64(self, image_path: str) -> str:
+        """Converts an image file to a base64 encoded string."""
+        try:
+            with open(image_path, "rb") as image_file:
+                return base64.b64encode(image_file.read()).decode('utf-8')
+        except FileNotFoundError:
+            raise FileNotFoundError(f"Image file not found at path: {image_path}")
+        except Exception as e:
+            raise IOError(f"Error reading or encoding the image file at {image_path}: {e}")
+
+    def predict(self, image_path: str, prompt: str, max_new_tokens: int) -> str:
+        """
+        Runs inference on a single image and prompt using the Ollama chat API.
+        """
+        if not self.model:
+            raise RuntimeError("Model is not loaded. Please call load_model() first.")
+
+        try:
+            # 1. Convert the image to a base64 string
+            image_b64 = self._image_to_base64(image_path)
+
+            # 2. Send the request to the Ollama API
+            response = ollama.chat(
+                model=self.model,
+                messages=[{
+                    'role': 'user',
+                    'content': prompt,
+                    'images': [image_b64]  # The API expects a list of base64 strings
+                }],
+                options={
+                    'num_predict': max_new_tokens
+                }
+            )
+
+            # 3. Extract the text content from the response message
+            return response['message']['content']
+        except Exception as e:
+            raise RuntimeError(f"Inference failed for image {image_path} with Ollama model {self.model}: {e}")
+
+# ==============================================================================
+# UPDATED FACTORY FUNCTION
+# ==============================================================================
 def get_model_adapter(model_config: dict) -> VLMAdapter:
     """Factory to select the correct adapter based on the model's configuration."""
     adapter_type = model_config.get("adapter_type")
@@ -170,5 +250,7 @@ def get_model_adapter(model_config: dict) -> VLMAdapter:
         return StandardPipelineAdapter(model_config)
     elif adapter_type == "qwen_vl":
         return QwenVLAdapter(model_config)
+    elif adapter_type == "ollama":
+        return OllamaAdapter(model_config)
     else:
         raise ValueError(f"Unknown or unspecified adapter type: '{adapter_type}'")

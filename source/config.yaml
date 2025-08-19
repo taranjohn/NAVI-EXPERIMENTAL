@@ -25,7 +25,7 @@ dataset:
 
   # Percentage of the dataset to sample for evaluation (e.g., 0.01 for 1%).
   # Use 1.0 for the full dataset.
-  sample_percentage: 0.025
+  sample_percentage: 0.001
 
   # Random state for reproducibility of the dataset sampling.
   random_state: 42
@@ -37,7 +37,7 @@ evaluation:
   # The prompt template sent to the VLM.
   # Use {class_names} as a placeholder for the list of categories.
   prompt_template: |
-    Analyze the image. Classify it into ONE of the following categories and provide a brief description.
+    You are an expert satellite imagery analyst. Analyze the image. Classify it into ONE of the following categories and provide a brief description.
     Categories: {class_names}
     Your answer MUST be in the format: 'Label: <category>, Description: <your_description>'
 
@@ -53,12 +53,17 @@ evaluation:
 # The script will iterate through each model.
 # The 'adapter_type' key is crucial for the factory to select the correct loader.
 models_to_evaluate:
-#  - name: "Gemma 3 4B"
-#    id: "google/gemma-3-4b-it"
-#    adapter_type: "standard_pipeline" # Use the standard HF pipeline adapter
+  - name: "Gemma 3 4B"
+    id: "google/gemma-3-4b-it"
+    adapter_type: "standard_pipeline" # Use the standard HF pipeline adapter
+    device: "mps" # Let the adapter know the preferred device
+
+#  - name: "Gemma 3n 4B"
+#    id: "gemma3n:e4b"
+#    adapter_type: "ollama" #
 #    device: "mps" # Let the adapter know the preferred device
 
-  - name: "Qwen2.5-VL-3B"
-    id: "Qwen/Qwen2.5-VL-3B-Instruct"
-    adapter_type: "qwen_vl" # Use the custom Qwen adapter
-    device: "mps" # Specify the device for this model
+#  - name: "Qwen2.5-VL-3B"
+#    id: "Qwen/Qwen2.5-VL-3B-Instruct"
+#    adapter_type: "qwen_vl" # Use the custom Qwen adapter
+#    device: "mps" # Specify the device for this model

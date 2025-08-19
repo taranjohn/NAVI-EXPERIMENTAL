@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/taran/PycharmProjects/NAVI-EXPERIMENTAL/source/mlruns/742722178064077029/e57d7d47f38849a0aa13f1b58ef43ba9/artifacts
+end_time: 1755620484713
+entry_point_name: ''
+experiment_id: '742722178064077029'
+lifecycle_stage: active
+run_id: e57d7d47f38849a0aa13f1b58ef43ba9
+run_name: Gemma 3 4B
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755620304226
+status: 3
+tags: []
+user_id: taran

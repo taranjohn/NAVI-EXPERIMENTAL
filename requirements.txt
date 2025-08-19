@@ -1,0 +1,14 @@
+torch~=2.7.1
+ollama~=0.5.3
+transformers~=4.54.1
+pillow~=11.3.0
+pandas~=2.3.1
+numpy~=2.2.6
+mlflow~=3.2.0
+mlflow-skinny~=3.2.0
+psutil~=7.0.0
+matplotlib~=3.10.5
+seaborn~=0.13.2
+yaml~=0.2.5
+pyyaml~=6.0.2
+scikit-learn~=1.7.1
